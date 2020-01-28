@@ -1,0 +1,86 @@
+#MPG Regression
+
+Which variables/coefficients provided a non-random amount of variance to the mpg values in the dataset?
+: I generated scatter plots with each variable to understand the relationship between dependent , and the 
+multiple variables. Vehicle length appeared to have the most linear relationship with mpg. 
+AWD appeared to have the least. 
+
+cor(mpg_cars$mpg, mpg_cars$`vehicle weight`)
+[1] 0.09068314
+> cor(mpg_cars$mpg, mpg_cars$`vehicle length`)
+[1] 0.6094798
+> cor(mpg_cars$mpg, mpg_cars$`spoiler angle`)
+[1] -0.02083999
+> cor(mpg_cars$mpg, mpg_cars$`ground clearance`)
+[1] 0.3287489
+> cor(mpg_cars$mpg, mpg_cars$`AWD`)
+[1] -0.1416698
+
+Is the slope of the linear model considered to be zero? Why or why not? 
+No, the slope of this model will not be Zero
+regardless of the independent variable. None of the variables have a completely linear relationship with the independent
+variable- I predited this via my scatter plot studies. 
+Does this linear model predict mpg of MechaCar prototypes effectively? Why or why not? 
+If we do a multiple regression(include all the given variables), then I believe our prediction will not be as accurate. 
+I would remove the vehicle weight, the spoiler angle, and the AWD from the study. I strongly believe that vehicle length
+and the ground clearance would alone provide better predictability. (correlation coefficents of both those variables
+are closest to 1 when compared to the others). Vehicle Length appears to predict MPG more accurately than any other
+variable. 
+
+************************************************************************************
+Suspension Coil Summary:
+I downloaded the psych package for R and used that to get the summary statistics for the suspension coil data
+
+The current manufacturing DOES meet the standard - the variance is 62.29, and the standard deviation is 7.89- 
+both these stats tell  us that the manufacturing of the coil is well within the spec that the variance of the
+suspension coils must not exceed 100lbs/inch. (62.29 +7.89= <100)
+
+ describe(S_Coil$PSI)
+   vars   n    mean   sd median trimmed  mad  min  max range  skew kurtosis   se
+X1    1 150 1498.78 7.89   1500 1499.66 1.48 1452 1542    90 -1.69    17.63 0.64
+var(S_Coil$PSI)
+[1] 62.29356
+
+
+
+Mean : 1498.78
+Median:1500
+Variance : 62.29
+Standard Deviation : 7.89 
+*************************************************************************************
+Suspension Coil T-Test
+Using the same suspension coil data and the MechaCarChallenge.RScript file, determine if the suspension coil’s 
+pound-per-inch results are statistically different from the mean population results of 1,500 pounds per inch. 
+
+I used one sample t-test because I'm comparing to a known standard of 1500 lbs/inch.
+
+T_test<-t.test(S_Coil$PSI,mu=1500)
+> print(T_test)
+
+	One Sample t-test
+
+data:  S_Coil$PSI
+t = -1.8931, df = 149, p-value = 0.06028
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1497.507 1500.053
+sample estimates:
+mean of x 
+  1498.78 
+
+The t-value measures the size of the difference relative to the variation in your sample data. Since our p-value is 
+larger than 0.05, we cannot reject the null hypothesis. 
+
+
+
+**************************************************************************************
+Design Your Own Study
+Metrics that would interest a client - fuel efficieny, cost and then color. Since we have been looking
+at mpg- I'm assuming that fuel efficiency is the most important criteria- and in return- the vehicle length and 
+ground clearnace would be most critical.
+Null Hypothesis : Ground clearnace has no affect on mpg. 
+Alternative Hypothessis : Ground Clearance does have an affect on mpg
+We could use one sample t test, with the the known standard of "customer required MPG"
+
+for required variables.
+
